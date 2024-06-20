@@ -69,6 +69,9 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
         Name:    "token",
         Value:   tokenString,
         Expires: expirationTime,
+        HttpOnly: true, // This helps prevent XSS attacks
+        Secure:   true, // This should be true if your application is running over HTTPS
+        Path:     "/",  // Ensure the cookie is accessible on all paths
     })
 
     json.NewEncoder(w).Encode(map[string]interface{}{
