@@ -100,7 +100,11 @@ func main() {
         port = "3000" // Fallback port if PORT is not set
     }
 
-    fmt.Println("wtf", jwtKey);
+
+    if len(jwtKey) == 0 {
+        log.Fatal("JWT_SECRET environment variable is not set")
+    }
+
     fmt.Printf("Starting server on port %s\n", port)
     http.ListenAndServe("0.0.0.0:" + port, nil)
 }
