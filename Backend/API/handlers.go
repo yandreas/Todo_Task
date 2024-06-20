@@ -10,13 +10,21 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+//user session token
 var jwtKey = []byte("your_secret_key")
 
+//saves user_id which is used as the user_id for sql queries
 type Claims struct {
     UserID int `json:"user_id"`
     jwt.StandardClaims
 }
 
+/*
+ * Handler for authenticating user login, calling authenticateUser
+ * Sets the session jwt token if user login was successful for 12hours in cookies with user_id which is used as as certification variable
+ * Request body consists of a username and password
+ * Writes "message": "Login user successfully" if successful, else Error
+ */
 func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     var req struct {
         Username string `json:"username"`
@@ -67,7 +75,11 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
     })
 }
 
-
+/*
+ * Handler for creating a new user, calling createUser
+ * Request body consists of a username and password
+ * Writes "message": "User created successfully" if successful, else Error
+ */
 func createUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     var req struct {
         Username string `json:"username"`
@@ -95,6 +107,11 @@ func createUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     })
 }
 
+/*
+ * Handler for creating a new todo, calling createUser
+ * Request body consists of title, description and category
+ * Writes "todo_id": todoID if successful, else Error
+ */
 func createTodoHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
     claims, err := validateToken(r)
@@ -128,6 +145,10 @@ func createTodoHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     })
 }
 
+/*
+ * Handler for retrieving todos, calling getTodosByUserID
+ * Writes Array of Todo objects if successful, else Error
+ */
 func loadTodosHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
@@ -147,6 +168,11 @@ func loadTodosHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     json.NewEncoder(w).Encode(todos)
 }
 
+
+/*
+ * Handler for retrieving categories, calling getCategoriesByUser
+ * Writes Array of Category objects if successful, else Error
+ */
 func loadCategoriesHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
@@ -166,6 +192,12 @@ func loadCategoriesHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     json.NewEncoder(w).Encode(categories)
 }
 
+
+/*
+ * Handler for updating todos, calling updateTodo
+ * Request body consists of todoid, title, description and category
+ * Writes "message": "Todo updated successfully" if successful, else Error
+ */
 func updateTodoHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
@@ -212,6 +244,12 @@ func updateTodoHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     })
 }
 
+
+/*
+ * Handler for deleting todos, calling deleteTodo
+ * Request body consists of todoid
+ * Writes "message": "Todo deleted successfully" if successful, else Error
+ */
 func deleteTodoHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
@@ -256,6 +294,12 @@ func deleteTodoHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     })
 }
 
+
+/*
+ * Handler for creating new categories, calling createCategory
+ * Request body consists of name of the new category
+ * Writes "category_id": categoryID if successful, else Error
+ */
 func createCategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
@@ -287,6 +331,12 @@ func createCategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     })
 }
 
+
+/*
+ * Handler for switching the order of two todos, calling switchTodoOrder
+ * Request body consists the id of the two todos
+ * Writes "message": "Todo order switched successfully" if successful, else Error
+ */
 func switchTodoOrderHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
@@ -341,37 +391,13 @@ func switchTodoOrderHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) 
     })
 }
 
-func validateToken(r *http.Request) (*Claims, error) {
-    c, err := r.Cookie("token")
-    if err != nil {
-        if err == http.ErrNoCookie {
-            return nil, fmt.Errorf("no token present")
-        }
-        return nil, fmt.Errorf("error retrieving token")
-    }
 
-    tknStr := c.Value
-    claims := &Claims{}
-
-    tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-        return jwtKey, nil
-    })
-
-    if err != nil {
-        if err == jwt.ErrSignatureInvalid {
-            return nil, fmt.Errorf("invalid token signature")
-        }
-        return nil, fmt.Errorf("error parsing token")
-    }
-
-    if !tkn.Valid {
-        return nil, fmt.Errorf("invalid token")
-    }
-
-    return claims, nil
-}
-
-func toggleTodoCheckedHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+/*
+ * Handler for switching the order of two todos, calling toggleTodoChecked
+ * Request body consists the todoid
+ * Writes "message": "Todo isChecked toggled successfully" if successful, else Error
+ */
+ func toggleTodoCheckedHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
     claims, err := validateToken(r)
     if err != nil {
         http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -413,4 +439,42 @@ func toggleTodoCheckedHandler(w http.ResponseWriter, r *http.Request, db *sql.DB
     json.NewEncoder(w).Encode(map[string]interface{}{
         "message": "Todo isChecked toggled successfully",
     })
+}
+
+
+/*
+ * Function used to validate the jwt token
+ * Request body consists the id of the two todos
+ *
+ * @return {Claims} claims - object with userid if successful else nil
+ * @return {error}         - nil if successful else Error
+ */
+func validateToken(r *http.Request) (*Claims, error) {
+    c, err := r.Cookie("token")
+    if err != nil {
+        if err == http.ErrNoCookie {
+            return nil, fmt.Errorf("no token present")
+        }
+        return nil, fmt.Errorf("error retrieving token")
+    }
+
+    tknStr := c.Value
+    claims := &Claims{}
+
+    tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+        return jwtKey, nil
+    })
+
+    if err != nil {
+        if err == jwt.ErrSignatureInvalid {
+            return nil, fmt.Errorf("invalid token signature")
+        }
+        return nil, fmt.Errorf("error parsing token")
+    }
+
+    if !tkn.Valid {
+        return nil, fmt.Errorf("invalid token")
+    }
+
+    return claims, nil
 }

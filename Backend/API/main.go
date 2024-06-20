@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-
+//Todo object
 type Todo struct {
     ID          int    `json:"id"`
     Title       string `json:"title"`
@@ -17,6 +17,7 @@ type Todo struct {
     IsChecked   bool   `json:"isChecked"`
 }
 
+//Category object
 type Category struct {
     ID   int    `json:"id"`
     Name string `json:"name"`
@@ -37,14 +38,18 @@ func enableCORS(handler http.Handler) http.Handler {
 }
 
 func main() {
+    //Initialize database
     db, err := initDB()
     if err != nil {
         log.Fatalf("Error initializing database: %v", err)
     }
+
+    //Closes connection to database when program stops
     defer db.Close()
 
     r := mux.NewRouter()
 
+    //api request url endings
     r.HandleFunc("/create-user", func(w http.ResponseWriter, r *http.Request) {
         createUserHandler(w, r, db)
     }).Methods("POST")

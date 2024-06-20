@@ -8,6 +8,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
+//Opens connection to the database
 func initDB() (*sql.DB, error) {
     db, err := sql.Open("mysql", "root:bonobo27@tcp(127.0.0.1:3306)/userdatabase")
     if err != nil {
@@ -16,6 +17,15 @@ func initDB() (*sql.DB, error) {
     return db, nil
 }
 
+
+/*
+ * Sends sql query to create a new user
+ * 
+ * @param {string} username
+ * @param {string} password
+ * @return {int64} userID  - userID of newly created user
+ * @return {error}         - nil if successful else Error
+ */
 func createUser(db *sql.DB, username, password string) (int64, error) {
     hashedPassword, err := hashPassword(password)
     if err != nil {
@@ -37,6 +47,7 @@ func createUser(db *sql.DB, username, password string) (int64, error) {
         return 0, err
     }
 
+    //automatically creates "None" category for every user which is a category for todos that have no category
     _, err = db.Exec("INSERT INTO categories (user_id, name) VALUES (?, ?)", userID, "None")
     if err != nil {
         return 0, err
@@ -45,6 +56,14 @@ func createUser(db *sql.DB, username, password string) (int64, error) {
     return userID, nil
 }
 
+/*
+ * Sends sql query to authenticate a user login
+ * 
+ * @param {string} username
+ * @param {string} password
+ * @return {int} userID  - userID of authenticated user
+ * @return {error}         - nil if successful else Error
+ */
 func authenticateUser(db *sql.DB, username, password string) (int, error) {
     var userID int
     var storedPassword string
@@ -64,7 +83,16 @@ func authenticateUser(db *sql.DB, username, password string) (int, error) {
 }
 
 
-
+/*
+ * Sends sql query to create a new todo for the user
+ * 
+ * @param {int} userID
+ * @param {string} title
+ * @param {string} description
+ * @param {int} categoryID
+ * @return {int64} userID  - todoID of newly created todo
+ * @return {error}         - nil if successful else Error
+ */
 func createTodo(db *sql.DB, userID int, title, description string, categoryID int) (int64, error) {
     maxOrderNumber, err := getMaxOrderNumber(db, userID)
     if err != nil {
@@ -85,6 +113,16 @@ func createTodo(db *sql.DB, userID int, title, description string, categoryID in
     return todoID, nil
 }
 
+
+/*
+ * Sends sql query to update an existing todo
+ * 
+ * @param {int} todoID
+ * @param {string} title
+ * @param {string} description
+ * @param {int} categoryID
+ * @return {error}         - nil if successful else Error
+ */
 func updateTodo(db *sql.DB, todoID int, title, description string, categoryID int) error {
     _, err := db.Exec("UPDATE todos SET title = ?, description = ?, category_id = ? WHERE id = ?",
         title, description, categoryID, todoID)
@@ -92,11 +130,26 @@ func updateTodo(db *sql.DB, todoID int, title, description string, categoryID in
 }
 
 
+/*
+ * Sends sql query to delete a todo
+ * 
+ * @param {int} todoID
+ * @return {error}         - nil if successful else Error
+ */
 func deleteTodo(db *sql.DB, todoID int) error {
     _, err := db.Exec("DELETE FROM todos WHERE id = ?", todoID)
     return err
 }
 
+
+/*
+ * Sends sql query to create a new category
+ * 
+ * @param {int} userID
+ * @param {string} name         - name of the new category
+ * @return {int64} categoryID   - id of new category
+ * @return {error}              - nil if successful else Error
+ */
 func createCategory(db *sql.DB, userID int, name string) (int64, error) {
     result, err := db.Exec("INSERT INTO categories (user_id, name) VALUES (?, ?)", userID, name)
     if err != nil {
@@ -111,6 +164,14 @@ func createCategory(db *sql.DB, userID int, name string) (int64, error) {
     return categoryID, nil
 }
 
+
+/*
+ * Sends sql query to swap the oder_number of two todos
+ * 
+ * @param {int} todoID1
+ * @param {int} todoID2
+ * @return {error}              - nil if successful else Error
+ */
 func switchTodoOrder(db *sql.DB, todoID1, todoID2 int) error {
     // Get current order numbers
     var orderNumber1, orderNumber2 int
@@ -138,12 +199,26 @@ func switchTodoOrder(db *sql.DB, todoID1, todoID2 int) error {
     return nil
 }
 
+
+/*
+ * Sends sql query to toggle the isChecked bool of a todo
+ * 
+ * @param {int} todoID
+ * @return {error}      - nil if successful else Error
+ */
 func toggleTodoChecked(db *sql.DB, todoID int) error {
     _, err := db.Exec("UPDATE todos SET isChecked = NOT isChecked WHERE id = ?", todoID)
     return err
 }
 
 
+/*
+ * Sends sql query to get all todos of the login user
+ * 
+ * @param {int} userID
+ * @return {[]Todo}     - Array of todo objects
+ * @return {error}      - nil if successful else Error
+ */
 func getTodosByUserID(db *sql.DB, userID int) ([]Todo, error) {
     var todos []Todo
 
@@ -170,6 +245,13 @@ func getTodosByUserID(db *sql.DB, userID int) ([]Todo, error) {
 }
 
 
+/*
+ * Sends sql query to get all categories of login user
+ * 
+ * @param {int} userID
+ * @return {[]Category}     - Array of category objects
+ * @return {error}          - nil if successful else Error
+ */
 func getCategoriesByUser(db *sql.DB, userID int) ([]Category, error) {
     var categories []Category
 
