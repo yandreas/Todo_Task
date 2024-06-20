@@ -5,21 +5,18 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 //Opens connection to the database
 func initDB() (*sql.DB, error) {
     //Load env file
-    //err := godotenv.Load("config.env")
-    err := godotenv.Load()
+    /*err := godotenv.Load("config.env")
     if err != nil {
         log.Fatalf("Error loading .env file")
     }
-    
+    */
     dbConfig := config.NewEnvDBConfig()
     connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbConfig.GetUsername(), dbConfig.GetPassword(), dbConfig.GetHost(), dbConfig.GetPort(), dbConfig.GetDatabase())
     db, err := sql.Open("mysql", connectionString)
