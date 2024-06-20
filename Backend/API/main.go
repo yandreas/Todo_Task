@@ -97,7 +97,7 @@ func main() {
     
     port := os.Getenv("PORT")
     if port == "" {
-        port = "8080" // Fallback port if PORT is not set
+        port = "3000" // Fallback port if PORT is not set
     }
 
     fmt.Printf("Starting server on port %s\n", port)
