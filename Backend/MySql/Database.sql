@@ -32,6 +32,3 @@ CREATE TABLE todos (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
-
-
--- DROP DATABASE userdatabase;
