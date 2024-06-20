@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -92,7 +94,13 @@ func main() {
 
     http.Handle("/", enableCORS(r))
 
-    log.Println("Server is running on port 8080")
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080" // Fallback port if PORT is not set
+    }
+
+    fmt.Printf("Starting server on port %s\n", port)
+    http.ListenAndServe(":" + port, nil)
 }
 
