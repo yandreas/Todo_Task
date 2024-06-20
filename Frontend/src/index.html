@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="img/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="img/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="img/favicon-16x16.png"
+    />
+    <link rel="manifest" href="../site.webmanifest" />
+
+    <link rel="stylesheet" href="style/style_login.css" />
+
+    <script type="module" src="js/script_login.js"></script>
+
+    <title>Todo List</title>
+  </head>
+  <body>
+    <section class="section">
+      <h1>To-do list Login</h1>
+
+      <h2>Register</h2>
+      <form id="createUserForm">
+        <label for="createUsername">Username:</label>
+        <input type="text" id="createUsername" name="username" required />
+        <br />
+        <label for="createPassword">Password:</label>
+        <input type="password" id="createPassword" name="password" required />
+        <br />
+        <button type="submit">Sign up</button>
+      </form>
+
+      <h2>Login</h2>
+      <form id="authenticateUserForm">
+        <label for="authUsername">Username:</label>
+        <input type="text" id="authUsername" name="username" required />
+        <br />
+        <label for="authPassword">Password:</label>
+        <input type="password" id="authPassword" name="password" required />
+        <br />
+        <button type="submit">Sign in</button>
+      </form>
+    </section>
+  </body>
+</html>

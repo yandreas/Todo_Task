@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="img/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="img/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="img/favicon-16x16.png"
+    />
+    <link rel="manifest" href="../site.webmanifest" />
+
+    <link rel="stylesheet" href="style/style_todos.css" />
+
+    <script type="module" src="js/controller_todos.js"></script>
+
+    <title>Todo List</title>
+  </head>
+  <body>
+    <section class="TodoList">
+      <div class="todo_header">
+        <h1>To-do list</h1>
+        <div class="categoryBox">
+          <button class="btn-category" type="button">+</button>
+        </div>
+      </div>
+      <div class="return-login">
+        <a href="index.html" class="login-link">Return to login</a>
+      </div>
+      <ul class="list"></ul>
+      <button class="btn-add" type="button">
+        <svg
+          viewBox="0 0 24.00 24.00"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          stroke="#74a4d6"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M4 12H20M12 4V20"
+              stroke="#74a4d6"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </g>
+        </svg>
+      </button>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #212427;
+  background-color: #f0f0f0;
+}
+
+.TodoList {
+  background-color: rgb(250, 250, 250);
+  width: 60rem;
+  height: 80rem;
+  margin: 5rem auto;
+  box-shadow: 0 0.3rem 1.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.2rem;
+  position: relative;
+}
+
+.return-login {
+  position: absolute;
+  top: 10;
+  right: 10;
+}
+
+.login-link {
+  text-decoration: none;
+  color: rgba(0, 123, 255);
+  font-size: 2rem;
+}
+
+/* HEAD */
+
+.todo_header {
+  padding: 2.5rem 0 3rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.todo_header h1 {
+  font-size: 4rem;
+  letter-spacing: 0.3rem;
+  font-weight: 600;
+}
+
+.todo_header span {
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+  font-weight: 600;
+}
+
+.categoryBox {
+  margin: 1rem 0 2rem 0;
+  display: flex;
+  gap: 1rem;
+  place-items: center;
+}
+
+.category-select {
+  width: fit-content;
+  margin-bottom: 0;
+}
+
+.categoryText {
+  align-self: start;
+}
+
+.btn-category {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-category:hover {
+  background-color: #0056b3;
+  box-shadow: 0 0.6rem 0.8rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-category:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.5);
+}
+
+/* CONTENT */
+
+.list {
+  padding: 0em 4rem;
+  width: 100%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  overflow-y: scroll;
+}
+
+.content {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: solid 0.1rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.content-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.checkbox {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background-color: white;
+  border-radius: 10rem;
+  vertical-align: middle;
+  border: 0.1rem solid #ddd;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  opacity: 1 !important;
+}
+
+.checkbox:checked {
+  background-color: rgb(93, 224, 159);
+}
+
+.checkbox:focus {
+  border: 0.1rem solid #ddd;
+  outline: none;
+  box-shadow: none;
+}
+
+.todo-category {
+  font-size: 1.2rem;
+  width: fit-content;
+  padding: 0.8rem;
+  border-radius: 10rem;
+  background-color: rgb(93, 224, 159);
+}
+
+.content-title {
+  font-size: 2.5rem;
+  font-weight: 500;
+  width: 75%;
+  overflow-wrap: break-word;
+}
+
+.content-description {
+  font-size: 1.75rem;
+  font-weight: 400;
+  padding: 0 4rem;
+}
+
+/*Icon-box*/
+.icon-box {
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+}
+
+.btn-delete {
+  width: 2rem;
+  display: grid;
+  place-content: center;
+  border: none;
+  background-color: rgb(250, 250, 250);
+  cursor: pointer;
+}
+.btn-delete img {
+  width: 2rem;
+}
+
+.btn-delete img:active {
+  width: 1.7rem;
+}
+
+.btn-edit {
+  width: 2rem;
+  display: grid;
+  place-content: center;
+  border: none;
+  background-color: rgb(250, 250, 250);
+  cursor: pointer;
+}
+
+.btn-edit img {
+  width: 2rem;
+}
+
+.btn-edit img:active {
+  width: 1.7rem;
+}
+
+/* ADD BUTTON*/
+.btn-add {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  border-radius: 10rem;
+  width: 7rem;
+  height: 7rem;
+  border: none;
+  background-color: rgb(93, 224, 159);
+  box-shadow: 0 0.3rem 1.5rem rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.btn-add:active,
+.btn-add:hover {
+  background-color: rgb(97, 211, 154);
+}
+
+.btn-add svg {
+  width: 2.5rem;
+}
+
+/*toggle visiblity*/
+.hidden {
+  display: none;
+}
+
+.checked {
+  opacity: 0.5;
+}
+
+.checked p {
+  text-decoration-line: line-through;
+}
+
+/*MODALS*/
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+  width: 30rem;
+  margin: 20vh auto;
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: #333;
+  font-size: 2rem;
+}
+
+input[type='text'],
+textarea,
+select {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 0.4rem;
+}
+
+textarea {
+  height: 10rem;
+  resize: none;
+}
+
+.btn-confirm {
+  width: 100%;
+  padding: 1rem;
+  background-color: #28a745;
+  border: none;
+  border-radius: 0.4rem;
+  color: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  margin-top: 2rem;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+#noBtn {
+  width: 50%;
+  padding: 1rem;
+  background-color: #a73728;
+  border: none;
+  border-radius: 0.4rem;
+  color: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  margin-top: 2rem;
+}
+
+#noBtn:hover {
+  background-color: #883621;
+}
+
+#yesBtn {
+  width: 50%;
+  padding: 1rem;
+  background-color: #28a745;
+  border: none;
+  border-radius: 0.4rem;
+  color: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  margin-top: 2rem;
+}
+
+#yesBtn:hover {
+  background-color: #218838;
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #aaa;
+  font-size: 2.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0.5rem rgba(0, 123, 255, 0.5);
+}
+
+/* SCROLLBAR */
+
+.list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0.6rem rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+  border-radius: 1rem;
+}
+
+.list::-webkit-scrollbar {
+  width: 1rem;
+  background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.44, rgb(122, 153, 217)),
+    color-stop(0.72, rgb(73, 125, 189)),
+    color-stop(0.86, rgb(28, 58, 148))
+  );
+}
