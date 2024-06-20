@@ -11,7 +11,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-//user session token
+//secret jwt key
 var jwtKey = []byte(os.Getenv("JWT_SECRET"))
 
 //saves user_id which is used as the user_id for sql queries
