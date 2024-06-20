@@ -37,11 +37,6 @@ func createUser(db *sql.DB, username, password string) (int64, error) {
         return 0, err
     }
 
-    _, err = db.Exec("INSERT INTO todolists (user_id) VALUES (?)", userID)
-    if err != nil {
-        return 0, err
-    }
-
     _, err = db.Exec("INSERT INTO categories (user_id, name) VALUES (?, ?)", userID, "None")
     if err != nil {
         return 0, err
@@ -71,19 +66,13 @@ func authenticateUser(db *sql.DB, username, password string) (int, error) {
 
 
 func createTodo(db *sql.DB, userID int, title, description string, categoryID int) (int64, error) {
-    var todoListID int
-    err := db.QueryRow("SELECT id FROM todolists WHERE user_id = ?", userID).Scan(&todoListID)
+    maxOrderNumber, err := getMaxOrderNumber(db, userID)
     if err != nil {
         return 0, err
     }
 
-    maxOrderNumber, err := getMaxOrderNumber(db, todoListID)
-    if err != nil {
-        return 0, err
-    }
-
-    result, err := db.Exec("INSERT INTO todos (todolist_id, title, description, category_id, order_number) VALUES (?, ?, ?, ?, ?)",
-        todoListID, title, description, categoryID, maxOrderNumber+1)
+    result, err := db.Exec("INSERT INTO todos (user_id, title, description, category_id, order_number) VALUES (?, ?, ?, ?, ?)",
+        userID, title, description, categoryID, maxOrderNumber+1)
     if err != nil {
         return 0, err
     }
@@ -108,8 +97,6 @@ func deleteTodo(db *sql.DB, todoID int) error {
     return err
 }
 
-
-
 func createCategory(db *sql.DB, userID int, name string) (int64, error) {
     result, err := db.Exec("INSERT INTO categories (user_id, name) VALUES (?, ?)", userID, name)
     if err != nil {
@@ -123,11 +110,6 @@ func createCategory(db *sql.DB, userID int, name string) (int64, error) {
 
     return categoryID, nil
 }
-
-
-
-
-
 
 func switchTodoOrder(db *sql.DB, todoID1, todoID2 int) error {
     // Get current order numbers
@@ -156,12 +138,16 @@ func switchTodoOrder(db *sql.DB, todoID1, todoID2 int) error {
     return nil
 }
 
+func toggleTodoChecked(db *sql.DB, todoID int) error {
+    _, err := db.Exec("UPDATE todos SET isChecked = NOT isChecked WHERE id = ?", todoID)
+    return err
+}
 
 
-func getTodosByTodoList(db *sql.DB, todoListID int) ([]Todo, error) {
+func getTodosByUserID(db *sql.DB, userID int) ([]Todo, error) {
     var todos []Todo
 
-    rows, err := db.Query("SELECT id, todolist_id, title, description, category_id, order_number FROM todos WHERE todolist_id = ?", todoListID)
+    rows, err := db.Query("SELECT id, title, description, category_id, order_number, isChecked FROM todos WHERE user_id = ?", userID)
     if err != nil {
         return nil, err
     }
@@ -169,7 +155,7 @@ func getTodosByTodoList(db *sql.DB, todoListID int) ([]Todo, error) {
 
     for rows.Next() {
         var todo Todo
-        err := rows.Scan(&todo.ID, &todo.TodoListID, &todo.Title, &todo.Description, &todo.CategoryID, &todo.OrderNumber)
+        err := rows.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.CategoryID, &todo.OrderNumber, &todo.IsChecked)
         if err != nil {
             return nil, err
         }

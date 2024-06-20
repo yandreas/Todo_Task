@@ -6,9 +6,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func getMaxOrderNumber(db *sql.DB, todoListID int) (int, error) {
+func getMaxOrderNumber(db *sql.DB, userID int) (int, error) {
     var maxOrderNumber int
-    err := db.QueryRow("SELECT COALESCE(MAX(order_number), 0) FROM todos WHERE todolist_id = ?", todoListID).Scan(&maxOrderNumber)
+    err := db.QueryRow("SELECT COALESCE(MAX(order_number), 0) FROM todos WHERE user_id = ?", userID).Scan(&maxOrderNumber)
     if err != nil {
         return 0, err
     }
@@ -24,3 +24,4 @@ func checkPasswordHash(password, hash string) bool {
     err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
     return err == nil
 }
+
