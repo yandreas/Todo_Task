@@ -14,7 +14,8 @@ import (
 //Opens connection to the database
 func initDB() (*sql.DB, error) {
     //Load env file
-    err := godotenv.Load("config.env")
+    //err := godotenv.Load("config.env")
+    err := godotenv.Load()
     if err != nil {
         log.Fatalf("Error loading .env file")
     }
