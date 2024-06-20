@@ -100,7 +100,7 @@ func main() {
         port = "3000" // Fallback port if PORT is not set
     }
 
-    fmt.Println(jwtKey);
+    fmt.Println("wtf", jwtKey);
     fmt.Printf("Starting server on port %s\n", port)
     http.ListenAndServe("0.0.0.0:" + port, nil)
 }
