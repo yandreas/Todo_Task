@@ -1,8 +1,9 @@
 -- Step 1: Create database
-CREATE DATABASE userdatabase;
+-- CREATE DATABASE userdatabase;
 
 -- Step 2: Use database
-USE userdatabase;
+-- USE userdatabase;
+USE railway;
 
 -- Step 3: Create user table
 CREATE TABLE users (
