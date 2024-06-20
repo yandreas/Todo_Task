@@ -101,6 +101,6 @@ func main() {
     }
 
     fmt.Printf("Starting server on port %s\n", port)
-    http.ListenAndServe(":" + port, nil)
+    http.ListenAndServe("0.0.0.0:" + port, nil)
 }
 
