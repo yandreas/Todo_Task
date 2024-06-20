@@ -1,5 +1,6 @@
 import { AJAX } from './utils';
 
+//Event Listener for register and login button
 document
   .getElementById('createUserForm')
   .addEventListener('submit', function (event) {
@@ -14,6 +15,7 @@ document
     authUser();
   });
 
+//Post request to create a new user
 const createUser = async function () {
   try {
     const username = document.getElementById('createUsername').value;
@@ -34,6 +36,10 @@ const createUser = async function () {
   }
 };
 
+/**
+ * Post request to authenticate user
+ * Redirectes to todos.html when successfully authorized username and password
+ */
 const authUser = async function () {
   try {
     const username = document.getElementById('authUsername').value;
@@ -53,8 +59,8 @@ const authUser = async function () {
   }
 };
 
+//redirectes to todos.html after pressing confirm button with successful entry
 function redirectToTodosPage(session) {
-  // Hier wird automatisch auf todos.html weitergeleitet
   if (session.message === 'Login user successfully')
     window.location.href = './todos.html';
 }

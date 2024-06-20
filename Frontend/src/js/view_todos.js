@@ -2,6 +2,7 @@ import deleteImg from '../img/delete.svg';
 import editImg from '../img/edit.svg';
 
 class todosView {
+  //Set view functions to handler when handlers need to be updated after loading the page
   postUpdate;
   postDelete;
   changeOrder;
@@ -9,14 +10,29 @@ class todosView {
 
   constructor() {}
 
+  //Event handler when page loads
   addHandlerRender(handler) {
     window.addEventListener('load', handler);
   }
 
+  //Sets eventhandler as parameter needed for content that updates dynamically
   addHandlerToggleCheck(handler) {
     this.toggleCheck = handler;
   }
 
+  addHandlerChangeOrder(handler) {
+    this.changeOrder = handler;
+  }
+
+  addHandlerUpdateTodo(handler) {
+    this.postUpdate = handler;
+  }
+
+  addHandlerDeleteTodo(handler) {
+    this.postDelete = handler;
+  }
+
+  //Handler for button to create a new category option in select categories
   addHandlerCreateCategory(handler) {
     const btnCategory = document.querySelector('.btn-category');
     btnCategory.addEventListener('click', e => {
@@ -51,6 +67,7 @@ class todosView {
     });
   }
 
+  //Modal window to enter name of new category option that is to be added
   #createCategoryMarkup() {
     const newElement = document.createElement('div');
     newElement.classList.add('modal');
@@ -66,6 +83,7 @@ class todosView {
     return newElement;
   }
 
+  //Handler for button to create a new todo in todolist
   addHandlerCreateTodo(handler) {
     const btnAdd = document.querySelector('.btn-add');
     btnAdd.addEventListener('click', e => {
@@ -100,6 +118,7 @@ class todosView {
     });
   }
 
+  //Modal window for entering data to create a new todo
   #createTodoMarkup() {
     const catSelect = document.querySelector('.category-select');
 
@@ -135,10 +154,7 @@ class todosView {
     return newElement;
   }
 
-  addHandlerUpdateTodo(handler) {
-    this.postUpdate = handler;
-  }
-
+  //Handler for Edit button to edit an existing todo
   #addHandlerEditBtn() {
     const btnAdd = document.querySelectorAll('.btn-edit');
     btnAdd.forEach(btn => {
@@ -163,9 +179,8 @@ class todosView {
               .querySelector('.todo-category')
               .textContent.trim()
           ) {
-            // Set the 'selected' attribute of the found <option> to true
             selectElement.options[i].selected = true;
-            break; // Exit the loop since we found our option
+            break;
           }
         }
 
@@ -203,6 +218,8 @@ class todosView {
       });
     });
   }
+
+  //Modal window for entering data to edit a todo, which holds the old values of the todo as starting values in input fields
   #createTodoUpdateMarkup() {
     const catSelect = document.querySelector('.category-select');
 
@@ -238,10 +255,7 @@ class todosView {
     return newElement;
   }
 
-  addHandlerDeleteTodo(handler) {
-    this.postDelete = handler;
-  }
-
+  //Handler for button to delete a todo from todolist
   #addHandlerDeleteBtn() {
     const btnDelete = document.querySelectorAll('.btn-delete');
     btnDelete.forEach(btn => {
@@ -284,6 +298,7 @@ class todosView {
     });
   }
 
+  //Modal window to confirm if you are sure to delete the todo
   #createTodoDeleteMarkup() {
     const newElement = document.createElement('div');
     newElement.classList.add('modal');
@@ -300,37 +315,32 @@ class todosView {
     return newElement;
   }
 
-  addHandlerChangeOrder(handler) {
-    this.changeOrder = handler;
-  }
-
   renderList(todos, categories) {
     this.#renderCategories(todos, categories);
     this.#renderSelectedTodos(todos, categories);
   }
 
+  //Handler to toggle the checked state of a todo
   #addToggleDescription() {
     document.querySelectorAll('li.content').forEach(function (contentElement) {
       contentElement.addEventListener('click', function (event) {
-        // Prüfe, ob das geklickte Element ein Button oder eine Checkbox ist
         if (
           event.target.closest('button') ||
           event.target.closest('input[type="checkbox"]')
         )
           return;
 
-        // Finde das nächste Kindelement mit der Klasse 'content-description'
         const descriptionElement = contentElement.querySelector(
           '.content-description'
         );
         if (descriptionElement) {
-          // Toggle die Klasse 'hidden'
           descriptionElement.classList.toggle('hidden');
         }
       });
     });
   }
 
+  //Renders the in categories selected todos
   #renderSelectedTodos(todos, categories) {
     const selectedCategory = document.querySelector('.category-select').value;
 
@@ -358,10 +368,7 @@ class todosView {
           this.changeOrder(tempID, tempID2);
         });
 
-        // Parent-Element finden
         const parentElement = document.querySelector('.list');
-
-        // Neues Element als letztes Kind-Element hinzufügen
         parentElement.appendChild(newElement);
       });
     } else {
@@ -391,10 +398,7 @@ class todosView {
           this.changeOrder(tempID, tempID2);
         });
 
-        // Parent-Element finden
         const parentElement = document.querySelector('.list');
-
-        // Neues Element als letztes Kind-Element hinzufügen
         parentElement.appendChild(newElement);
       });
     }
@@ -403,14 +407,15 @@ class todosView {
     this.#addHandlerDeleteBtn();
   }
 
+  //clears old todo html
   #clearTodos() {
     document.querySelector('.list').innerHTML = '';
   }
 
+  //renders category select element
   #renderCategories(todos, categories) {
     const newElement = this.#generateCategoriesMarkup(categories);
 
-    // Parent-Element finden
     const parentElement = document.querySelector('.categoryBox');
 
     // Clear old categories
@@ -421,15 +426,13 @@ class todosView {
 
       for (let i = 0; i < newElement.options.length; i++) {
         if (newElement.options[i].value === oldSelected.trim()) {
-          // Set the 'selected' attribute of the found <option> to true
           newElement.options[i].selected = true;
-          break; // Exit the loop since we found our option
+          break;
         }
       }
       parentElement.removeChild(oldCategorySelect);
     }
 
-    // Neues Element als letztes Kind-Element hinzufügen
     parentElement.prepend(newElement);
 
     const categorySelector = document.querySelector('.category-select');
@@ -438,6 +441,7 @@ class todosView {
     });
   }
 
+  //Generates html markup of category select
   #generateCategoriesMarkup(categories) {
     const newElement = document.createElement('select');
     newElement.classList.add('category-select');
@@ -451,6 +455,7 @@ class todosView {
     return newElement;
   }
 
+  //Generates the html markup of a new todo entry
   #generateTodoMarkup(
     { id, title, description, category_id, isChecked },
     categories
@@ -494,4 +499,5 @@ class todosView {
   }
 }
 
+//Creates an instance of the view used by controller
 export default new todosView();

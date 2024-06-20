@@ -1,11 +1,13 @@
 import { AJAX, sortCategoriesByName } from './utils';
 import { sortTodosByOrderNumber } from './utils';
 
+//state saves retrieved data of todos and categories of a user
 export const state = {
   todos: [],
   categories: [],
 };
 
+//Called at start of loading the page and renders todos and categories on page
 export const loadTodos = async function () {
   try {
     const todos = await AJAX(`http://localhost:8080/todos`);
@@ -20,6 +22,11 @@ export const loadTodos = async function () {
   }
 };
 
+/**
+ * Creates a new category entry if successful in database for the user and pushes the category to state.categories
+ *
+ * @param {string} name - name of new category
+ */
 export const postNewCategory = async function (name) {
   try {
     const newCategoryID = await AJAX(
@@ -36,11 +43,19 @@ export const postNewCategory = async function (name) {
   }
 };
 
+/**
+ * Create a new todo entry if successful in database for the user then reloads the todos
+ *
+ * @param {string} title
+ * @param {string} description
+ * @param {string} category_name
+ */
 export const postNewTodo = async function (title, description, category_name) {
   try {
+    //Find id of category comparing name to categories elements
     const category = state.categories.find(obj => obj.name === category_name);
 
-    const newTodoID = await AJAX(
+    const _ = await AJAX(
       `http://localhost:8080/create-todo`,
       'application/json',
       {
@@ -59,6 +74,14 @@ export const postNewTodo = async function (title, description, category_name) {
   }
 };
 
+/**
+ * Updates a todo entry if successful in database for the user then reloads the todos
+ *
+ * @param {string} title
+ * @param {string} description
+ * @param {string} category_name
+ * @param {string} id                - id of the todo thats updated converted to int
+ */
 export const postUpdateTodo = async function (
   title,
   description,
@@ -66,9 +89,10 @@ export const postUpdateTodo = async function (
   id
 ) {
   try {
+    //Find id of category comparing name to categories elements
     const category = state.categories.find(obj => obj.name === category_name);
 
-    const updateTodo = await AJAX(
+    const _ = await AJAX(
       `http://localhost:8080/update-todo`,
       'application/json',
       {
@@ -88,9 +112,14 @@ export const postUpdateTodo = async function (
   }
 };
 
+/**
+ * Deletes a todo entry if successful in database for the user then reloads the todos
+ *
+ * @param {string} id - id of the to be deleted todo converted to int
+ */
 export const postDeleteTodo = async function (id) {
   try {
-    const deleteTodo = await AJAX(
+    const _ = await AJAX(
       `http://localhost:8080/delete-todo`,
       'application/json',
       {
@@ -107,9 +136,15 @@ export const postDeleteTodo = async function (id) {
   }
 };
 
+/**
+ * Changes the order_number of two todos in database if successful
+ *
+ * @param {string} id1 - id of first todo converted to int
+ * @param {string} id2 - id of second todo converted to int
+ */
 export const changeOrder = async function (id1, id2) {
   try {
-    const deleteTodo = await AJAX(
+    const _ = await AJAX(
       `http://localhost:8080/switch-order`,
       'application/json',
       {
@@ -127,9 +162,14 @@ export const changeOrder = async function (id1, id2) {
   }
 };
 
+/**
+ * Toggles the boolean isChecked of a todo in database which indicates whether a todo is checked or not
+ *
+ * @param {string} id - id of todo converted to int
+ */
 export const toggleCheck = async function (id) {
   try {
-    const toggleCheck = await AJAX(
+    const _ = await AJAX(
       `http://localhost:8080/toggle-todo-checked`,
       'application/json',
       {

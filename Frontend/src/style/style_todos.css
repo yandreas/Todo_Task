@@ -237,19 +237,6 @@ body {
   width: 2.5rem;
 }
 
-/*toggle visiblity*/
-.hidden {
-  display: none;
-}
-
-.checked {
-  opacity: 0.5;
-}
-
-.checked p {
-  text-decoration-line: line-through;
-}
-
 /*MODALS*/
 .modal {
   position: fixed;
@@ -395,4 +382,20 @@ textarea:focus {
     color-stop(0.72, rgb(73, 125, 189)),
     color-stop(0.86, rgb(28, 58, 148))
   );
+}
+
+/* utils */
+
+/*toggle visiblity*/
+.hidden {
+  display: none;
+}
+
+/* checkbox checked */
+.checked {
+  opacity: 0.5;
+}
+
+.checked p {
+  text-decoration-line: line-through;
 }
