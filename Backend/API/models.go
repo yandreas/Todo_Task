@@ -9,6 +9,10 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
+//secret jwt key
+var jwtKey []byte;
+
+
 //Opens connection to the database
 func initDB() (*sql.DB, error) {
     //Load env file
@@ -18,6 +22,7 @@ func initDB() (*sql.DB, error) {
     }
     */
     dbConfig := config.NewEnvDBConfig()
+    jwtKey = []byte(dbConfig.GetKey());
     connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbConfig.GetUsername(), dbConfig.GetPassword(), dbConfig.GetHost(), dbConfig.GetPort(), dbConfig.GetDatabase())
     db, err := sql.Open("mysql", connectionString)
     if err != nil {
