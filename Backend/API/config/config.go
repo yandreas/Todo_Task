@@ -11,7 +11,6 @@ type EnvDBConfig struct {
     username string
     password string
     database string
-    key      string
 }
 
 func NewEnvDBConfig() *EnvDBConfig {
@@ -21,7 +20,6 @@ func NewEnvDBConfig() *EnvDBConfig {
         username: os.Getenv("DB_USER"),
         password: os.Getenv("DB_PASSWORD"),
         database: os.Getenv("DB_DATABASE"),
-        key:      os.Getenv("JWT_SECRET"),
     }
 }
 
@@ -43,8 +41,4 @@ func (c *EnvDBConfig) GetPassword() string {
 
 func (c *EnvDBConfig) GetDatabase() string {
     return c.database
-}
-
-func (c *EnvDBConfig) GetKey() string {
-    return c.key
 }
