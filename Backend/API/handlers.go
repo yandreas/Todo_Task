@@ -46,7 +46,7 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
             http.Error(w, err.Error(), http.StatusUnauthorized)
             return
         }
-        http.Error(w, err.Error(), http.StatusInternalServerError)
+        http.Error(w, err.Error(), http.StatusUnauthorized)
         return
     }
 
@@ -61,9 +61,7 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
     tokenString, err := token.SignedString(jwtKey)
     if err != nil {
-       // http.Error(w, "Error creating JWT", http.StatusInternalServerError)
-       http.Error(w, "Error creating JWT", http.StatusUnauthorized)
-
+        http.Error(w, "Error creating JWT", http.StatusInternalServerError)
         return
     }
 
