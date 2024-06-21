@@ -99,7 +99,7 @@ func authenticateUser(db *sql.DB, username, password string) (int, error) {
  * @param {string} title
  * @param {string} description
  * @param {int} categoryID
- * @return {int64} userID  - todoID of newly created todo
+ * @return {int64} todoID  - todoID of newly created todo
  * @return {error}         - nil if successful else Error
  */
 func createTodo(db *sql.DB, userID int, title, description string, categoryID int) (int64, error) {
