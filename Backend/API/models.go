@@ -88,8 +88,7 @@ func authenticateUser(db *sql.DB, username, password string) (int, error) {
         return 0, fmt.Errorf("incorrect password")
     }
 
-    //return userID, nil
-    return 1, nil
+    return userID, nil
 }
 
 
