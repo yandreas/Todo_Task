@@ -4,8 +4,8 @@
   "description": "Todo List using JS+HTML+CSS for frontend and golang for backend and MySql for the database",
   "default": "index.html",
   "scripts": {
-    "dev": "parcel src/todos.html",
-    "build": "parcel build src/index.html --dist-dir ./dist"
+    "dev": "parcel src/*.html",
+    "build": "parcel build src/*.html --dist-dir ./dist"
   },
   "author": "Andreas Meier",
   "license": "ISC",
