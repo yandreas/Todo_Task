@@ -69,6 +69,8 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
         Name:    "token",
         Value:   tokenString,
         Expires: expirationTime,
+        Secure: true,
+        Domain: "https://todolist-andreas.netlify.app",
     })
 
     json.NewEncoder(w).Encode(map[string]interface{}{
