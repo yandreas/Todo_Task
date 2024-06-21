@@ -70,14 +70,14 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
         Value:   tokenString,
         Expires: expirationTime,
         Path:     "/",
-        SameSite: http.SameSiteNoneMode,
+        //SameSite: http.SameSiteNoneMode,
         Secure: true,
         HttpOnly: true, // Prevent access to the cookie via JavaScript
-        Domain: "https://todolist-andreas.netlify.app",
+        //Domain: "https://todolist-andreas.netlify.app",
     })
 
     w.WriteHeader(http.StatusOK)
-    
+
     json.NewEncoder(w).Encode(map[string]interface{}{
         "message": "Login user successfully",
     })
