@@ -94,6 +94,9 @@ func main() {
 
     http.Handle("/", enableCORS(r))
 
+    if(os.Getenv("JWT_SECRET") == ""){
+        log.Fatalf("Error JWT key")
+    }
     
     port := os.Getenv("PORT")
     if port == "" {

@@ -46,7 +46,7 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
             http.Error(w, err.Error(), http.StatusUnauthorized)
             return
         }
-        http.Error(w, err.Error(), http.StatusUnauthorized)
+        http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
 
