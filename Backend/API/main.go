@@ -27,7 +27,7 @@ type Category struct {
 
 func enableCORS(handler http.Handler) http.Handler {
     return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "https://todolist-andreas.netlify.app/") 
+        w.Header().Set("Access-Control-Allow-Origin", "https://todolist-andreas.netlify.app") 
         w.Header().Set("Access-Control-Allow-Credentials", "true")
         w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
         w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
