@@ -101,13 +101,6 @@ func main() {
     }
 
 
-    jwtSecret := os.Getenv("JWT_SECRET")
-    if jwtSecret == "" {
-        log.Fatal("JWT_SECRET environment variable is not set")
-    }
-    
-    jwtKey = []byte(jwtSecret)
-
     fmt.Printf("Starting server on port %s\n", port)
     http.ListenAndServe("0.0.0.0:" + port, nil)
 }

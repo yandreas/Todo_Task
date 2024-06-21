@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/go-sql-driver/mysql"
 )
@@ -23,6 +24,12 @@ func initDB() (*sql.DB, error) {
     */
     dbConfig := config.NewEnvDBConfig()
     jwtKey = []byte(dbConfig.GetKey());
+
+    if dbConfig.GetKey() == "" {
+        log.Fatal("JWT_SECRET environment variable is not set")
+    }
+
+
     connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbConfig.GetUsername(), dbConfig.GetPassword(), dbConfig.GetHost(), dbConfig.GetPort(), dbConfig.GetDatabase())
     db, err := sql.Open("mysql", connectionString)
     if err != nil {
