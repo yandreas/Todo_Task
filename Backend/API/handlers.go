@@ -69,9 +69,6 @@ func authenticateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB)
         Name:    "token",
         Value:   tokenString,
         Expires: expirationTime,
-        HttpOnly: true, // This helps prevent XSS attacks
-        Secure:   true, // This should be true if your application is running over HTTPS
-        Path:     "/",  // Ensure the cookie is accessible on all paths
     })
 
     json.NewEncoder(w).Encode(map[string]interface{}{
@@ -338,7 +335,7 @@ func createCategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 /*
  * Handler for switching the order of two todos, calling switchTodoOrder
- * Request body consists the id of the two todos
+ * Request body consists of the id of the two todos
  * Writes "message": "Todo order switched successfully" if successful, else Error
  */
 func switchTodoOrderHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -398,7 +395,7 @@ func switchTodoOrderHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 
 /*
  * Handler for switching the order of two todos, calling toggleTodoChecked
- * Request body consists the todoid
+ * Request body consists of the todoid
  * Writes "message": "Todo isChecked toggled successfully" if successful, else Error
  */
  func toggleTodoCheckedHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -448,7 +445,6 @@ func switchTodoOrderHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) 
 
 /*
  * Function used to validate the jwt token
- * Request body consists the id of the two todos
  *
  * @return {Claims} claims - object with userid if successful else nil
  * @return {error}         - nil if successful else Error
