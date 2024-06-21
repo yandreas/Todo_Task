@@ -10,12 +10,16 @@ export const state = {
 //Called at start of loading the page and renders todos and categories on page
 export const loadTodos = async function () {
   try {
-    const todos = await AJAX(`http://localhost:8080/todos`);
+    const todos = await AJAX(
+      `https://todotask-production.up.railway.app/todos`
+    );
     if (todos) {
       state.todos = sortTodosByOrderNumber(todos);
     }
 
-    const categories = await AJAX(`http://localhost:8080/categories`);
+    const categories = await AJAX(
+      `https://todotask-production.up.railway.app/categories`
+    );
     state.categories = categories;
   } catch (err) {
     throw err;
@@ -30,7 +34,7 @@ export const loadTodos = async function () {
 export const postNewCategory = async function (name) {
   try {
     const newCategoryID = await AJAX(
-      `http://localhost:8080/create-category`,
+      `https://todotask-production.up.railway.app/create-category`,
       'application/json',
       {
         name: name,
@@ -56,7 +60,7 @@ export const postNewTodo = async function (title, description, category_name) {
     const category = state.categories.find(obj => obj.name === category_name);
 
     const _ = await AJAX(
-      `http://localhost:8080/create-todo`,
+      `https://todotask-production.up.railway.app/create-todo`,
       'application/json',
       {
         title: title,
@@ -65,7 +69,9 @@ export const postNewTodo = async function (title, description, category_name) {
       }
     );
 
-    const todos = await AJAX(`http://localhost:8080/todos`);
+    const todos = await AJAX(
+      `https://todotask-production.up.railway.app/todos`
+    );
     if (todos) {
       state.todos = sortTodosByOrderNumber(todos);
     }
@@ -93,7 +99,7 @@ export const postUpdateTodo = async function (
     const category = state.categories.find(obj => obj.name === category_name);
 
     const _ = await AJAX(
-      `http://localhost:8080/update-todo`,
+      `https://todotask-production.up.railway.app/update-todo`,
       'application/json',
       {
         todo_id: Number(id),
@@ -103,7 +109,9 @@ export const postUpdateTodo = async function (
       }
     );
 
-    const todos = await AJAX(`http://localhost:8080/todos`);
+    const todos = await AJAX(
+      `https://todotask-production.up.railway.app/todos`
+    );
     if (todos) {
       state.todos = sortTodosByOrderNumber(todos);
     }
@@ -120,14 +128,16 @@ export const postUpdateTodo = async function (
 export const postDeleteTodo = async function (id) {
   try {
     const _ = await AJAX(
-      `http://localhost:8080/delete-todo`,
+      `https://todotask-production.up.railway.app/delete-todo`,
       'application/json',
       {
         todo_id: Number(id),
       }
     );
 
-    const todos = await AJAX(`http://localhost:8080/todos`);
+    const todos = await AJAX(
+      `https://todotask-production.up.railway.app/todos`
+    );
     if (todos) {
       state.todos = sortTodosByOrderNumber(todos);
     }
@@ -145,7 +155,7 @@ export const postDeleteTodo = async function (id) {
 export const changeOrder = async function (id1, id2) {
   try {
     const _ = await AJAX(
-      `http://localhost:8080/switch-order`,
+      `https://todotask-production.up.railway.app/switch-order`,
       'application/json',
       {
         todo_id_1: Number(id1),
@@ -153,7 +163,9 @@ export const changeOrder = async function (id1, id2) {
       }
     );
 
-    const todos = await AJAX(`http://localhost:8080/todos`);
+    const todos = await AJAX(
+      `https://todotask-production.up.railway.app/todos`
+    );
     if (todos) {
       state.todos = sortTodosByOrderNumber(todos);
     }
@@ -170,14 +182,16 @@ export const changeOrder = async function (id1, id2) {
 export const toggleCheck = async function (id) {
   try {
     const _ = await AJAX(
-      `http://localhost:8080/toggle-todo-checked`,
+      `https://todotask-production.up.railway.app/toggle-todo-checked`,
       'application/json',
       {
         todo_id: Number(id),
       }
     );
 
-    const todos = await AJAX(`http://localhost:8080/todos`);
+    const todos = await AJAX(
+      `https://todotask-production.up.railway.app/todos`
+    );
     if (todos) {
       state.todos = sortTodosByOrderNumber(todos);
     }

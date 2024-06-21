@@ -22,7 +22,7 @@ const createUser = async function () {
     const password = document.getElementById('createPassword').value;
 
     const data = AJAX(
-      'http://localhost:8080/create-user',
+      'https://todotask-production.up.railway.app/create-user',
       'application/x-www-form-urlencoded',
       {
         username: username,
@@ -46,7 +46,7 @@ const authUser = async function () {
     const password = document.getElementById('authPassword').value;
 
     const data = AJAX(
-      'http://localhost:8080/authenticate-user',
+      'https://todotask-production.up.railway.app/authenticate-user',
       'application/x-www-form-urlencoded',
       {
         username: username,
