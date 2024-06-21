@@ -100,7 +100,7 @@ func main() {
     }
 
 
-    fmt.Printf("Starting server on port %s\n + key:%s", port,os.Getenv("JWT_SECRET"))
+    fmt.Printf("Starting server on port %s\n", port)
     http.ListenAndServe("0.0.0.0:" + port, nil)
 }
 
