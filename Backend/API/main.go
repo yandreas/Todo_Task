@@ -93,10 +93,6 @@ func main() {
     }).Methods("POST")
 
     http.Handle("/", enableCORS(r))
-
-    if(os.Getenv("JWT_SECRET") == ""){
-        log.Fatalf("Error JWT key")
-    }
     
     port := os.Getenv("PORT")
     if port == "" {
@@ -104,7 +100,7 @@ func main() {
     }
 
 
-    fmt.Printf("Starting server on port %s\n", port)
+    fmt.Printf("Starting server on port %s\n + key:%s", port,jwtKey)
     http.ListenAndServe("0.0.0.0:" + port, nil)
 }
 
